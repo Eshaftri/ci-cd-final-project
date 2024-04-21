@@ -22,7 +22,7 @@ def health():
 ############################################################
 @app.route("/")
 def index():
-    """Returns information about the service"""
+    """Returns information abut the service"""
     app.logger.info("Request for Base URL")
     return jsonify(
         status=status.HTTP_200_OK,
@@ -40,8 +40,7 @@ def list_counters():
     """Lists all counters"""
     app.logger.info("Request to list all counters...")
 
-    counters = [dict(name=count[0], counter=count[1]) 
-                for count in COUNTER.items()]
+    counters = [dict(name=count[0], counter=count[1]) for count in COUNTER.items()]
 
     return jsonify(counters)
 
@@ -52,11 +51,10 @@ def list_counters():
 @app.route("/counters/<name>", methods=["POST"])
 def create_counters(name):
     """Creates a new counter"""
-    app.logger.info(f"Request to Create counter: {name}...")
+    app.logger.info("Request to Create counter: %s...", name)
 
     if name in COUNTER:
-        return abort(status.HTTP_409_CONFLICT, 
-                     f"Counter {name} already exists")
+        return abort(status.HTTP_409_CONFLICT, f"Counter {name} already exists")
 
     COUNTER[name] = 0
 
@@ -74,11 +72,10 @@ def create_counters(name):
 @app.route("/counters/<name>", methods=["GET"])
 def read_counters(name):
     """Reads a single counter"""
-    app.logger.info(f"Request to Read counter: {name}...")
+    app.logger.info("Request to Read counter: %s...", name)
 
     if name not in COUNTER:
-        return abort(status.HTTP_404_NOT_FOUND, 
-                     f"Counter {name} does not exist")
+        return abort(status.HTTP_404_NOT_FOUND, f"Counter {name} does not exist")
 
     counter = COUNTER[name]
     return jsonify(name=name, counter=counter)
@@ -90,11 +87,10 @@ def read_counters(name):
 @app.route("/counters/<name>", methods=["PUT"])
 def update_counters(name):
     """Updates a counter"""
-    app.logger.info(f"Request to Update counter: {name}...")
+    app.logger.info("Request to Update counter: %s...", name)
 
     if name not in COUNTER:
-        return abort(status.HTTP_404_NOT_FOUND, 
-                     f"Counter {name} does not exist")
+        return abort(status.HTTP_404_NOT_FOUND, f"Counter {name} does not exist")
 
     COUNTER[name] += 1
 
@@ -108,7 +104,7 @@ def update_counters(name):
 @app.route("/counters/<name>", methods=["DELETE"])
 def delete_counters(name):
     """Deletes a counter"""
-    app.logger.info(f"Request to Delete counter: {name}...")
+    app.logger.info("Request to Delete counter: %s...", name)
 
     if name in COUNTER:
         COUNTER.pop(name)
